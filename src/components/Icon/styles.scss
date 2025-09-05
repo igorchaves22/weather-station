@@ -1,0 +1,27 @@
+@use "~styles/variables" as *;
+@use "~styles/tokens" as *;
+
+.icon {
+    display: block;
+    flex: 0 0 auto;
+    color: var(--color-primary);
+    font-size: $icon-base;
+
+    &-- {
+        &color- {
+            @each $name, $value in $color-token {
+                &#{$name} {
+                    color: $value;
+                }
+            }
+        }
+
+        &size- {
+            @each $name, $value in $icon-token {
+                &#{$name} {
+                    font-size: $value;
+                }
+            }
+        }
+    }
+}

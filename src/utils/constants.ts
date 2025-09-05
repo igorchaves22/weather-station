@@ -1,3 +1,5 @@
+import { XIcon } from "@phosphor-icons/react";
+
 export const THEME_CONFIG = {
     key: "theme",
     defaultState: "light",
@@ -27,3 +29,7 @@ export const QUERY_CONFIG = {
         imperial: "°F"
     }
 } as const;
+
+export const ICONS = {
+    X: XIcon
+};

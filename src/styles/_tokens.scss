@@ -2,7 +2,8 @@
 
 $color-token: (
     brand: var(--color-brand),
-    main: var(--color-main)
+    main: var(--color-main),
+    primary: var(--color-primary)
 );
 
 $weight-token: (
@@ -27,4 +28,10 @@ $text-token: (
     "3xl": $text-3xl,
     "4xl": $text-4xl,
     "5xl": $text-5xl
+);
+
+$icon-token: (
+    sm: $icon-sm,
+    base: $icon-base,
+    lg: $icon-lg
 );
