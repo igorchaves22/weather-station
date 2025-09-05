@@ -1,16 +1,20 @@
 @use "sass:list";
 @use "sass:map";
 @use "sass:meta";
+@use "./variables" as *;
 @use "./functions" as *;
 @use "./tokens" as *;
 
+$color-values-allowed: map.keys($color-token);
 $width-values-allowed: 100%, max-content;
 $height-values-allowed: min-content, auto;
-$bg-color-values-allowed: list.join((transparent), map.keys($color-token), comma);
+$bg-color-values-allowed: list.join((transparent), $color-values-allowed, comma);
 $flex-direction-values-allowed: row, column;
 $flex-wrap-values-allowed: nowrap, wrap;
 $grid-rows-values-allowed: min-content, auto, 1fr;
 $layout-place-values-allowed: center, start;
+$text-weight-values-allowed: map.keys($weight-token);
+$text-size-values-allowed: map.keys($text-token);
 
 @mixin generate-theme-vars($theme-map) {
     @each $key, $value in $theme-map {
@@ -75,4 +79,21 @@ $layout-place-values-allowed: center, start;
     gap: px-to-rem($layout-gap);
     place-content: $layout-content;
     place-items: $layout-items;
+}
+
+@mixin text($color: primary, $weight: regular, $size: sm) {
+    @include validate-params(
+        ("$color", $color, null, $color-values-allowed),
+        ("$weight", $weight, null, $text-weight-values-allowed),
+        ("$size", $size, null, $text-size-values-allowed)
+    );
+
+    $resolved-color: map.get($color-token, $color);
+    $resolved-weight: map.get($weight-token, $weight);
+    $resolved-size: map.get($text-token, $size);
+
+    color: $resolved-color;
+    font: normal $resolved-weight $resolved-size / normal $font-family;
+
+    @include box;
 }
