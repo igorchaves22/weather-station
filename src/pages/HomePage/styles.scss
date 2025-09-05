@@ -1,9 +1,14 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
 .home-page {
-    width: 100%;
-    height: auto;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    place-content: center start;
-    place-items: center start;
+    display: grid;
+    grid: min-content 1fr min-content / min(100%, $max-layout);
+    gap: 0 !important;
+    align-content: start !important;
+    align-items: start !important;
+
+    @include box($width: 100%, $height: auto, $bg-color: main);
+    @include layout;
 }

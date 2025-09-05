@@ -1,5 +1,78 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "./functions" as *;
+@use "./tokens" as *;
+
+$width-values-allowed: 100%, max-content;
+$height-values-allowed: min-content, auto;
+$bg-color-values-allowed: list.join((transparent), map.keys($color-token), comma);
+$flex-direction-values-allowed: row, column;
+$flex-wrap-values-allowed: nowrap, wrap;
+$grid-rows-values-allowed: min-content, auto, 1fr;
+$layout-place-values-allowed: center, start;
+
 @mixin generate-theme-vars($theme-map) {
     @each $key, $value in $theme-map {
         --color-#{$key}: #{$value};
     }
+}
+
+@mixin validate-params($params...) {
+    @each $name, $value, $types-allowed, $values-allowed in $params {
+        $error-type: validate-type($name, $value, $types-allowed);
+        $error-value: validate-value($name, $value, $values-allowed);
+    }
+}
+
+@mixin box($width: 100%, $height: min-content, $bg-color: transparent) {
+    @include validate-params(
+        ("$width", $width, null, $width-values-allowed),
+        ("$height", $height, null, $height-values-allowed),
+        ("$bg-color", $bg-color, null, $bg-color-values-allowed)
+    );
+
+    $resolved-color: if($bg-color == transparent, transparent, map.get($color-token, $bg-color));
+
+    width: $width;
+    height: $height;
+    background-color: $resolved-color;
+}
+
+@mixin flex($flex-grow: 0, $flex-shrink: 0, $flex-basis: auto, $flex-direction: row, $flex-wrap: wrap) {
+    @include validate-params(
+        ("$flex-grow", $flex-grow, number),
+        ("$flex-shrink", $flex-shrink, number),
+        ("$flex-basis", $flex-basis, number),
+        ("$flex-direction", $flex-direction, null, $flex-direction-values-allowed),
+        ("$flex-wrap", $flex-wrap, null, $flex-wrap-values-allowed)
+    );
+
+    $resolved-basis: if(meta.type-of($flex-basis) == "number", px-to-rem($flex-basis), $flex-basis);
+
+    display: flex;
+    flex: $flex-grow $flex-shrink $resolved-basis;
+    flex-flow: $flex-direction $flex-wrap;
+
+    @include layout;
+}
+
+@mixin grid($grid-rows: min-content) {
+    @include validate-params(("$grid-rows", $grid-rows, null, $grid-rows-values-allowed));
+
+    display: grid;
+    grid: #{$grid-rows} / 100%;
+
+    @include layout;
+}
+
+@mixin layout($layout-gap: 16, $layout-content: center, $layout-items: center) {
+    @include validate-params(
+        ("$layout-content", $layout-content, null, $layout-place-values-allowed),
+        ("$layout-items", $layout-items, null, $layout-place-values-allowed)
+    );
+
+    gap: px-to-rem($layout-gap);
+    place-content: $layout-content;
+    place-items: $layout-items;
 }
