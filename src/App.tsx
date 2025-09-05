@@ -1,8 +1,8 @@
 import { HomePage } from "~pages";
-import { initializeTheme } from "~utils";
+import { initializeApp } from "~utils";
 import "~styles/global.scss";
 
-initializeTheme();
+initializeApp();
 
 export function App() {
     return <HomePage />;

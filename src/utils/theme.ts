@@ -13,9 +13,3 @@ export const updateTheme = (theme: ThemeType) => {
     document.body.classList.remove(...THEME_CONFIG.types);
     document.body.classList.add(theme);
 };
-
-export const initializeTheme = () => {
-    const storedTheme = getTheme();
-
-    updateTheme(storedTheme);
-};
