@@ -1,1 +1,15 @@
 @use "./reset";
+@use "./theme" as *;
+@use "./mixins" as *;
+
+body {
+    --color-brand: #1e40af;
+}
+
+body.light {
+    @include generate-theme-vars($theme-light);
+}
+
+body.dark {
+    @include generate-theme-vars($theme-dark);
+}
