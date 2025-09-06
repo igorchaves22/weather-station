@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import pluginQuery from "@tanstack/eslint-plugin-query";
 import eslintConfigPrettier from "eslint-config-prettier";
 import importHelpers from "eslint-plugin-import-helpers";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
@@ -13,6 +14,7 @@ export default defineConfig([
     js.configs.recommended,
     tsEslint.configs.recommended,
     pluginReact.configs.flat.recommended,
+    ...pluginQuery.configs["flat/recommended"],
     {
         files: ["**/*"],
         ignores: ["./node_modules"],
