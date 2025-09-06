@@ -1,20 +1,20 @@
-@use "sass:list";
 @use "sass:map";
 @use "sass:meta";
+@use "sass:list";
 @use "./variables" as *;
-@use "./functions" as *;
 @use "./tokens" as *;
 
 $color-values-allowed: map.keys($color-token);
+$spacing-values-allowed: map.keys($spacing-token);
 $width-values-allowed: 100%, max-content;
-$height-values-allowed: min-content, auto;
+$height-values-allowed: min-content, auto, 100vh;
 $bg-color-values-allowed: list.join((transparent), $color-values-allowed, comma);
 $flex-direction-values-allowed: row, column;
 $flex-wrap-values-allowed: nowrap, wrap;
-$grid-rows-values-allowed: min-content, auto, 1fr;
 $layout-place-values-allowed: center, start;
 $text-weight-values-allowed: map.keys($weight-token);
 $text-size-values-allowed: map.keys($text-token);
+$text-align-values-allowed: center, left, right, justify;
 
 @mixin generate-theme-vars($theme-map) {
     @each $key, $value in $theme-map {
@@ -24,8 +24,26 @@ $text-size-values-allowed: map.keys($text-token);
 
 @mixin validate-params($params...) {
     @each $name, $value, $types-allowed, $values-allowed in $params {
-        $error-type: validate-type($name, $value, $types-allowed);
-        $error-value: validate-value($name, $value, $values-allowed);
+        $type-value: meta.type-of($value);
+        $has-type-allowed: $types-allowed != null;
+        $has-value-allowed: $values-allowed != null;
+
+        @if $has-type-allowed and not $has-value-allowed {
+            @if $type-value != $types-allowed {
+                @error "The parameter `#{$name}` must be of type `#{$types-allowed}`. Received: `#{$value}` (#{$type-value})";
+            }
+        } @else if not $has-type-allowed and $has-value-allowed {
+            @if list.index($values-allowed, $value) == null {
+                @error "The parameter `#{$name}` can only be one of #{$values-allowed}. Received: `#{$value}`";
+            }
+        } @else if $has-type-allowed and $has-value-allowed {
+            $type-ok: $type-value == $types-allowed;
+            $value-ok: list.index($values-allowed, $value) != null;
+
+            @if not($type-ok or $value-ok) {
+                @error "The parameter `#{$name}` must be of type `#{$types-allowed}` or one of #{$values-allowed}. Received: `#{$value}` (#{$type-value})";
+            }
+        }
     }
 }
 
@@ -43,16 +61,16 @@ $text-size-values-allowed: map.keys($text-token);
     background-color: $resolved-color;
 }
 
-@mixin flex($flex-grow: 0, $flex-shrink: 0, $flex-basis: auto, $flex-direction: row, $flex-wrap: wrap) {
+@mixin flex($flex-grow: 0, $flex-shrink: 1, $flex-basis: auto, $flex-direction: row, $flex-wrap: wrap) {
     @include validate-params(
         ("$flex-grow", $flex-grow, number),
         ("$flex-shrink", $flex-shrink, number),
-        ("$flex-basis", $flex-basis, number),
+        ("$flex-basis", $flex-basis, number, auto),
         ("$flex-direction", $flex-direction, null, $flex-direction-values-allowed),
         ("$flex-wrap", $flex-wrap, null, $flex-wrap-values-allowed)
     );
 
-    $resolved-basis: if(meta.type-of($flex-basis) == "number", px-to-rem($flex-basis), $flex-basis);
+    $resolved-basis: if(meta.type-of($flex-basis) == "number", #{$flex-basis}rem, $flex-basis);
 
     display: flex;
     flex: $flex-grow $flex-shrink $resolved-basis;
@@ -61,31 +79,41 @@ $text-size-values-allowed: map.keys($text-token);
     @include layout;
 }
 
-@mixin grid($grid-rows: min-content) {
-    @include validate-params(("$grid-rows", $grid-rows, null, $grid-rows-values-allowed));
-
+@mixin grid() {
     display: grid;
-    grid: #{$grid-rows} / 100%;
+    grid: min-content / 100%;
 
     @include layout;
 }
 
-@mixin layout($layout-gap: 16, $layout-content: center, $layout-items: center) {
+@mixin layout($layout-gap: 4, $layout-content: center, $layout-items: center) {
     @include validate-params(
+        ("$layout-gap", $layout-gap, null, $spacing-values-allowed),
         ("$layout-content", $layout-content, null, $layout-place-values-allowed),
         ("$layout-items", $layout-items, null, $layout-place-values-allowed)
     );
 
-    gap: px-to-rem($layout-gap);
+    $resolved-gap: map.get($spacing-token, $layout-gap);
+
+    gap: $resolved-gap;
     place-content: $layout-content;
     place-items: $layout-items;
 }
 
-@mixin text($color: primary, $weight: regular, $size: sm) {
+@mixin button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    @include box(max-content);
+}
+
+@mixin text($color: primary, $weight: regular, $size: sm, $align: left) {
     @include validate-params(
         ("$color", $color, null, $color-values-allowed),
         ("$weight", $weight, null, $text-weight-values-allowed),
-        ("$size", $size, null, $text-size-values-allowed)
+        ("$size", $size, null, $text-size-values-allowed),
+        ("$align", $align, null, $text-align-values-allowed)
     );
 
     $resolved-color: map.get($color-token, $color);
@@ -94,6 +122,7 @@ $text-size-values-allowed: map.keys($text-token);
 
     color: $resolved-color;
     font: normal $resolved-weight $resolved-size / normal $font-family;
+    text-align: $align;
 
     @include box;
 }

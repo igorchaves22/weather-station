@@ -1,10 +1,12 @@
 @use "./reset";
 @use "./fonts";
+@use "./animations";
 @use "./theme" as *;
 @use "./mixins" as *;
 
 body {
     --color-brand: #1e40af;
+    --color-action: #3b82f6;
 }
 
 body.light {

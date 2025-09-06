@@ -1,4 +1,4 @@
-import { XIcon } from "@phosphor-icons/react";
+import { ListIcon, MoonIcon, SunIcon, XIcon } from "@phosphor-icons/react";
 
 export const THEME_CONFIG = {
     key: "theme",
@@ -31,5 +31,8 @@ export const QUERY_CONFIG = {
 } as const;
 
 export const ICONS = {
-    X: XIcon
+    X: XIcon,
+    List: ListIcon,
+    Sun: SunIcon,
+    Moon: MoonIcon
 };

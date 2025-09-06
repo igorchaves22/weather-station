@@ -1,0 +1,53 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
+.navbar {
+    @include box;
+
+    &__ {
+        &box {
+            @include box;
+            @include flex;
+
+            &-- {
+                &list {
+                    list-style: none;
+                    flex-direction: column;
+                    gap: $spacing-1 $spacing-6;
+                }
+            }
+        }
+
+        &btn {
+            padding: $spacing-1 $spacing-4;
+            border-radius: $spacing-1;
+            transition: all 0.25s linear;
+
+            @include button;
+            @include text($color: secondary, $weight: bold, $align: right);
+
+            &:hover {
+                background-color: var(--color-action);
+                color: var(--color-main);
+                transform: translateY(-$spacing-1);
+            }
+
+            &--selected {
+                background-color: var(--color-interactive);
+            }
+        }
+    }
+
+    @media (width >= $breakpoint-lg) {
+        &__box-- {
+            &list {
+                flex-direction: row;
+                flex-wrap: nowrap;
+            }
+
+            &item {
+                width: max-content;
+            }
+        }
+    }
+}

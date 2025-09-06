@@ -1,0 +1,5 @@
+@use "~styles/mixins" as *;
+
+.toggle-theme-button {
+    @include button;
+}

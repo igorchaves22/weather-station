@@ -1,0 +1,64 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
+.page-header {
+    padding: $spacing-4;
+    border-bottom: $border solid var(--color-soft);
+
+    @include box;
+    @include flex($flex-wrap: nowrap);
+
+    &__ {
+        &box {
+            @include box;
+            @include flex;
+
+            &-- {
+                &button {
+                    justify-content: end;
+                }
+
+                &modal {
+                    width: 75%;
+                    height: 100%;
+                    margin-left: auto;
+                    padding: $spacing-4;
+                    border-left: $border solid var(--color-soft);
+                    flex-direction: column;
+                    row-gap: $spacing-6;
+                    justify-content: start;
+                    align-items: end;
+                    background-color: var(--color-main);
+                }
+
+                &show {
+                    animation: slideFromRight 0.4s ease 0.15s both;
+                }
+
+                &hide {
+                    animation: slideToRight 0.4s ease forwards;
+                }
+            }
+        }
+
+        &button {
+            @include button;
+        }
+
+        &divider {
+            height: $border !important;
+
+            @include box($bg-color: soft);
+        }
+    }
+
+    @media (width >= $breakpoint-lg) {
+        grid-template-columns: 1fr 6fr 1fr !important;
+
+        @include grid;
+
+        &__box--button {
+            justify-content: center;
+        }
+    }
+}

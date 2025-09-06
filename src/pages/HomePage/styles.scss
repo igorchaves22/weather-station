@@ -4,11 +4,11 @@
 .home-page {
     min-height: 100vh;
     display: grid;
-    grid: min-content 1fr min-content / min(100%, $max-layout);
+    grid: min-content 1fr min-content / min(100%, $max-layout) !important;
     gap: 0 !important;
     align-content: start !important;
     align-items: start !important;
 
     @include box($width: 100%, $height: auto, $bg-color: main);
-    @include layout;
+    @include grid;
 }

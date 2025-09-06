@@ -1,9 +1,17 @@
 $theme-light: (
     main: #fafafa,
-    primary: #101014
+    primary: #101014,
+    secondary: #3f3f46,
+    soft: #e4e4e7,
+    interactive: #e0e7ff,
+    glass: rgba(255, 255, 255, 0.85)
 );
 
 $theme-dark: (
     main: #101014,
-    primary: #fafafa
+    primary: #fafafa,
+    secondary: #a1a1aa,
+    soft: #2a2a33,
+    interactive: #1f1f25,
+    glass: rgba(20, 20, 24, 0.85)
 );
