@@ -1,0 +1,90 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
+.page-footer {
+    padding: $spacing-8 $spacing-4;
+    border-top: $border solid var(--color-soft);
+    row-gap: $spacing-8 !important;
+
+    @include box;
+    @include flex($flex-direction: column);
+
+    &__ {
+        &box {
+            @include box;
+            @include flex;
+
+            &-- {
+                &main {
+                    flex-direction: column;
+                    align-items: start;
+                }
+
+                &list {
+                    list-style: none;
+                    gap: $spacing-1;
+                    justify-content: start;
+                }
+
+                &item {
+                    width: max-content;
+                }
+            }
+        }
+
+        &link {
+            text-decoration: none;
+
+            @include box(max-content);
+
+            &-- {
+                &source {
+                    display: flex;
+                    column-gap: $spacing-1;
+                    align-items: center;
+                }
+
+                &author {
+                    color: var(--color-action);
+                    font-weight: 700;
+                }
+            }
+        }
+
+        &text {
+            @include text;
+
+            &-- {
+                &source {
+                    font-weight: 600;
+                }
+
+                &copyright {
+                    color: var(--color-secondary);
+                    font-weight: 300;
+                    font-size: $text-xs;
+                }
+            }
+        }
+    }
+
+    @media (width >= $breakpoint-sm) {
+        &__ {
+            &box--main {
+                grid-template-columns: 1fr repeat(3, max-content) !important;
+                column-gap: $spacing-6 !important;
+                justify-items: start !important;
+
+                @include grid;
+            }
+
+            &text--copyright {
+                text-align: center;
+            }
+        }
+    }
+
+    @media (width >= $breakpoint-lg) {
+        padding-inline: $spacing-10;
+    }
+}
