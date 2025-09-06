@@ -3,6 +3,7 @@ export type ColorType =
     | "main"
     | "primary"
     | "secondary"
+    | "surface"
     | "soft"
     | "action"
     | "interactive"

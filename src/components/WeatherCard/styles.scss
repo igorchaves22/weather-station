@@ -1,0 +1,53 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
+.weather-card {
+    padding: $spacing-4;
+    border: $border solid var(--color-soft);
+    border-radius: $spacing-1;
+    row-gap: $spacing-8 !important;
+    align-self: stretch;
+    animation: bounceIn 1s linear both;
+
+    @include box($height: auto, $bg-color: surface);
+    @include flex($flex-direction: column);
+
+    &__ {
+        &box {
+            @include box;
+            @include flex;
+
+            &-- {
+                &main {
+                    row-gap: $spacing-1;
+                }
+
+                &heading {
+                    flex-wrap: nowrap;
+                    column-gap: $spacing-1;
+                }
+
+                &children {
+                    flex-grow: 1;
+                    align-content: start;
+                }
+            }
+        }
+
+        &text {
+            @include text($size: xs, $align: center);
+
+            &-- {
+                &title {
+                    width: fit-content;
+                    font-weight: 800;
+                    font-size: $text-base;
+                }
+
+                &description {
+                    color: var(--color-secondary);
+                }
+            }
+        }
+    }
+}

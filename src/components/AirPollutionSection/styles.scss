@@ -1,0 +1,53 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
+.air-pollution-section {
+    gap: $spacing-8 $spacing-12 !important;
+
+    @include box;
+    @include flex;
+
+    &__ {
+        &box {
+            @include box;
+            @include flex;
+
+            &-- {
+                &list {
+                    list-style: none;
+                    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)) !important;
+                    row-gap: $spacing-2 !important;
+
+                    @include grid;
+                }
+
+                &item {
+                    padding-left: $spacing-1;
+                    border-left-width: $spacing-1;
+                    border-left-style: solid;
+                }
+            }
+        }
+
+        &text {
+            @include text($size: xs);
+
+            &-- {
+                &aqi {
+                    font-weight: 900;
+                    font-size: $text-base;
+                    text-align: center;
+                }
+
+                &strong {
+                    color: var(--color-secondary);
+                    font-weight: 900;
+                }
+            }
+        }
+    }
+
+    @media (width >= $breakpoint-md) {
+        flex-wrap: nowrap;
+    }
+}
