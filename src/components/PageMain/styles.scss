@@ -1,0 +1,56 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
+.page-main {
+    padding: $spacing-4 $spacing-4 $spacing-8;
+    align-self: stretch;
+    justify-content: start !important;
+    justify-items: start !important;
+
+    @include box($height: auto);
+    @include flex($flex-direction: column);
+
+    &__ {
+        &box {
+            @include box;
+            @include flex;
+
+            &-- {
+                &main {
+                    height: auto;
+                    flex: 1 1 auto;
+                    flex-direction: column;
+                    justify-content: start;
+                    justify-items: start;
+                }
+
+                &content {
+                    height: auto;
+                    flex: 1 1 auto;
+                    align-content: start;
+                    align-items: start;
+                }
+
+                &empty {
+                    flex-direction: column;
+                    row-gap: $spacing-1;
+                }
+            }
+        }
+
+        &text {
+            @include text;
+
+            &-- {
+                &title {
+                    font-weight: 900;
+                    font-size: $text-3xl;
+                }
+
+                &description {
+                    color: var(--color-secondary);
+                }
+            }
+        }
+    }
+}

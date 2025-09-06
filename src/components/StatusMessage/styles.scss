@@ -1,0 +1,36 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
+.status-message {
+    overflow: hidden;
+
+    @include box;
+
+    &__text {
+        @include text($weight: bold, $size: xs);
+
+        &-- {
+            &error {
+                color: var(--color-error);
+            }
+
+            &warning {
+                color: var(--color-warning);
+            }
+
+            &show {
+                animation: slideInFromLeft 0.5s ease both;
+            }
+
+            &hide {
+                animation: slideOutToLeft 0.5s ease forwards;
+            }
+        }
+    }
+
+    &--is-absolute {
+        position: absolute;
+        inset: calc(100% + $spacing-1) 0 0 0;
+        z-index: 5;
+    }
+}

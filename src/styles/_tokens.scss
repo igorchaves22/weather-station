@@ -8,7 +8,9 @@ $color-token: (
     soft: var(--color-soft),
     action: var(--color-soft),
     interactive: var(--color-interactive),
-    glass: var(--color-glass)
+    glass: var(--color-glass),
+    warning: var(--color-warning),
+    error: var(--color-error)
 );
 
 $weight-token: (
