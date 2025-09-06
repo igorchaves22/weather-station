@@ -1,0 +1,91 @@
+@use "~styles/variables" as *;
+@use "~styles/mixins" as *;
+
+.query-form {
+    row-gap: $spacing-6 !important;
+    align-content: start !important;
+    align-items: start !important;
+
+    @include box;
+    @include flex($flex-direction: column);
+
+    &__ {
+        &box {
+            position: relative;
+
+            @include box;
+            @include flex(1, 1);
+
+            &-- {
+                &main {
+                    align-items: start;
+                }
+
+                :is(&type, &unit) {
+                    flex-basis: 8rem;
+                }
+
+                &location {
+                    flex-basis: 28rem;
+                }
+
+                &gap-sm {
+                    gap: $spacing-1;
+                }
+
+                &inline {
+                    flex-wrap: nowrap;
+                }
+
+                &column {
+                    flex-direction: column;
+                }
+            }
+        }
+
+        &text {
+            @include text($size: xs);
+
+            &-- {
+                &title {
+                    font-weight: 700;
+                }
+
+                &label {
+                    color: var(--color-secondary);
+                }
+            }
+        }
+
+        &radio {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 100%;
+            appearance: none;
+            background-color: var(--color-interactive);
+            cursor: pointer;
+
+            &:checked {
+                background-color: var(--color-action);
+            }
+        }
+
+        &field {
+            padding: $spacing-1 $spacing-3;
+            border: none;
+            border-radius: $spacing-1;
+            outline: none;
+            background-color: var(--color-interactive) !important;
+
+            @include box;
+            @include text($color: secondary, $size: xs);
+        }
+
+        &btn {
+            width: max-content !important;
+
+            @include button;
+            @include text(action, bold, xs);
+        }
+    }
+}

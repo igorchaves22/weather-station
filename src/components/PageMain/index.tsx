@@ -1,4 +1,5 @@
 import { renderElementIfTrue } from "~utils";
+import { QueryForm } from "../QueryForm";
 import { StatusMessage } from "../StatusMessage";
 import { SECTION } from "./constants";
 import { useController } from "./useController";
@@ -9,7 +10,7 @@ export const PageMain = () => {
 
     return (
         <main className="page-main">
-            <p>QUERY FORM</p>
+            <QueryForm />
             <section className="page-main__box page-main__box--main">
                 <StatusMessage
                     isRendered={noteIsRendered}
